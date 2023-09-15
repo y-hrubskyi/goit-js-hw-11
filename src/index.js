@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 
@@ -19,7 +20,7 @@ let lightbox = null;
 refs.searchForm.addEventListener('submit', onSearchFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 
-function onSearchFormSubmit(event) {
+async function onSearchFormSubmit(event) {
   event.preventDefault();
   refs.galleryContainer.innerHTML = '';
   refs.loadMoreBtn.classList.add('visually-hidden');
@@ -27,45 +28,46 @@ function onSearchFormSubmit(event) {
 
   searchQuery = event.currentTarget.elements.searchQuery.value;
 
-  fetchSearchResults(searchQuery)
-    .then(results => {
-      if (!results.hits.length) {
-        Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.'
-          // { position: 'center-center' }
-        );
-        return;
-      }
+  try {
+    const results = await fetchSearchResults(searchQuery);
+    if (!results.hits.length) {
+      Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      return;
+    }
 
-      Notify.info(`Hooray! We found ${results.totalHits} images.`);
-      renderSearchResults(results.hits);
-      lightbox = new SimpleLightbox('.gallery a');
+    Notify.info(`Hooray! We found ${results.totalHits} images.`);
+    renderSearchResults(results.hits);
+    lightbox = new SimpleLightbox('.gallery a');
 
-      if (results.hits.length < per_page) {
-        return;
-      }
-      refs.loadMoreBtn.classList.remove('visually-hidden');
-    })
-    .catch(console.log);
+    if (results.hits.length < per_page) {
+      return;
+    }
+    refs.loadMoreBtn.classList.remove('visually-hidden');
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function onLoadMoreBtnClick() {
+async function onLoadMoreBtnClick() {
   page += 1;
-  fetchSearchResults(searchQuery)
-    .then(results => {
-      renderSearchResults(results.hits);
 
-      lightbox.refresh();
+  try {
+    const results = await fetchSearchResults(searchQuery);
+    renderSearchResults(results.hits);
+    lightbox.refresh();
 
-      if (results.totalHits <= page * per_page) {
-        refs.loadMoreBtn.classList.add('visually-hidden');
-        Notify.warning(
-          "We're sorry, but you've reached the end of search results.",
-          { position: 'right-bottom' }
-        );
-      }
-    })
-    .catch(console.log);
+    if (results.totalHits <= page * per_page) {
+      refs.loadMoreBtn.classList.add('visually-hidden');
+      Notify.warning(
+        "We're sorry, but you've reached the end of search results.",
+        { position: 'right-bottom' }
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 function createSearchResultMarkup(item) {
@@ -101,7 +103,7 @@ function renderSearchResults(array) {
   refs.galleryContainer.insertAdjacentHTML('beforeend', markup);
 }
 
-function fetchSearchResults(searchQuery) {
+async function fetchSearchResults(searchQuery) {
   const searchParams = new URLSearchParams({
     key: API_KEY,
     q: searchQuery,
@@ -113,10 +115,6 @@ function fetchSearchResults(searchQuery) {
   });
   const url = `${BASE_URL}/?${searchParams}`;
 
-  return fetch(url).then(response => {
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  const response = await axios(url);
+  return response.data;
 }
