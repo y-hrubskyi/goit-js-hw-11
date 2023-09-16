@@ -24,10 +24,18 @@ class ThePixabayApiService {
       per_page: this.perPage,
       page: this.page,
     });
-    const url = `${BASE_URL}/?${searchParams}`;
+    const url = `${this.#BASE_URL}/?${searchParams}`;
 
     const response = await axios(url);
     return response.data;
+  }
+
+  resetPage() {
+    this.page = 1;
+  }
+
+  incrementPage() {
+    this.page += 1;
   }
 }
 

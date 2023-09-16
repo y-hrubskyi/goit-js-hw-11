@@ -11,18 +11,18 @@ import { ThePixabayApiService } from './js/thepixabay-api-service';
 import { refs } from './js/refs';
 
 // code
-let lightbox = null;
-
 const searchService = new ThePixabayApiService();
+let lightbox = null;
 
 refs.searchForm.addEventListener('submit', onSearchFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
 
 async function onSearchFormSubmit(event) {
   event.preventDefault();
+
   refs.galleryContainer.innerHTML = '';
   refs.loadMoreBtn.classList.add('visually-hidden');
-  searchService.page = 1;
+  searchService.resetPage();
 
   searchService.searchQuery =
     event.currentTarget.elements.searchQuery.value.trim();
@@ -64,7 +64,7 @@ async function onSearchFormSubmit(event) {
 }
 
 async function onLoadMoreBtnClick() {
-  searchService.page += 1;
+  searchService.incrementPage();
 
   try {
     const results = await searchService.fetchSearchResults();
