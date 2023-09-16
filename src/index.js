@@ -1,21 +1,19 @@
-import axios from 'axios';
+// libraries
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 
+// styles
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const API_KEY = '39469696-20028cb0579d07044da7a8037';
-const BASE_URL = 'https://pixabay.com/api';
+// local modules
+import { renderSearchResults } from './js/render-functions';
+import { ThePixabayApiService } from './js/thepixabay-api-service';
+import { refs } from './js/refs';
 
-const refs = {
-  searchForm: document.querySelector('.search-form'),
-  galleryContainer: document.querySelector('.gallery'),
-  loadMoreBtn: document.querySelector('.load-more'),
-};
-const per_page = 40;
-let page = 1;
-let searchQuery = '';
+// code
 let lightbox = null;
+
+const searchService = new ThePixabayApiService();
 
 refs.searchForm.addEventListener('submit', onSearchFormSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreBtnClick);
@@ -24,16 +22,17 @@ async function onSearchFormSubmit(event) {
   event.preventDefault();
   refs.galleryContainer.innerHTML = '';
   refs.loadMoreBtn.classList.add('visually-hidden');
-  page = 1;
+  searchService.page = 1;
 
-  searchQuery = event.currentTarget.elements.searchQuery.value.trim();
-  if (!searchQuery) {
+  searchService.searchQuery =
+    event.currentTarget.elements.searchQuery.value.trim();
+  if (!searchService.searchQuery) {
     Notify.warning('Your search request is empty');
     return;
   }
 
   try {
-    const results = await fetchSearchResults(searchQuery);
+    const results = await searchService.fetchSearchResults();
     if (!results.hits.length) {
       Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
@@ -44,10 +43,10 @@ async function onSearchFormSubmit(event) {
     Notify.info(`Hooray! We found ${results.totalHits} images.`, {
       timeout: 1700,
     });
-    renderSearchResults(results.hits);
+    renderSearchResults(results.hits, refs.galleryContainer);
     lightbox = new SimpleLightbox('.gallery a');
 
-    if (results.hits.length < per_page) {
+    if (results.hits.length < searchService.perPage) {
       setTimeout(
         () =>
           Notify.warning(
@@ -65,14 +64,14 @@ async function onSearchFormSubmit(event) {
 }
 
 async function onLoadMoreBtnClick() {
-  page += 1;
+  searchService.page += 1;
 
   try {
-    const results = await fetchSearchResults(searchQuery);
-    renderSearchResults(results.hits);
+    const results = await searchService.fetchSearchResults();
+    renderSearchResults(results.hits, refs.galleryContainer);
     lightbox.refresh();
 
-    if (results.totalHits <= page * per_page) {
+    if (results.totalHits <= searchService.page * searchService.perPage) {
       refs.loadMoreBtn.classList.add('visually-hidden');
       setTimeout(
         () =>
@@ -86,53 +85,4 @@ async function onLoadMoreBtnClick() {
   } catch (error) {
     console.log(error);
   }
-}
-
-function createSearchResultMarkup(item) {
-  return `<div class="photo-card">
-        <a href="${item.largeImageURL}">
-          <div class="thumb">
-              <img src="${item.webformatURL}" alt="${item.tag} loading="lazy" />
-          </div>
-        </a>
-        <div class="info">
-          <p class="info-item">
-            <b>Likes</b>
-            <span class="stats-quantity">${item.likes}</span>
-          </p>
-          <p class="info-item">
-            <b>Views</b>
-            <span class="stats-quantity">${item.views}</span>
-          </p>
-          <p class="info-item">
-            <b>Comments</b>
-            <span class="stats-quantity">${item.comments}</span>
-          </p>
-          <p class="info-item">
-            <b>Downloads</b>
-            <span class="stats-quantity">${item.downloads}</span>
-          </p>
-        </div>
-      </div>`;
-}
-
-function renderSearchResults(array) {
-  const markup = array.map(createSearchResultMarkup).join('');
-  refs.galleryContainer.insertAdjacentHTML('beforeend', markup);
-}
-
-async function fetchSearchResults(searchQuery) {
-  const searchParams = new URLSearchParams({
-    key: API_KEY,
-    q: searchQuery,
-    image_type: 'photo',
-    orientation: 'horizontal',
-    safesearch: 'true',
-    per_page,
-    page,
-  });
-  const url = `${BASE_URL}/?${searchParams}`;
-
-  const response = await axios(url);
-  return response.data;
 }
