@@ -46,7 +46,7 @@ async function onSearchFormSubmit(event) {
     renderSearchResults(results.hits, refs.galleryContainer);
     lightbox = new SimpleLightbox('.gallery a');
 
-    if (results.hits.length < searchService.perPage) {
+    if (results.totalHits <= searchService.perPage) {
       setTimeout(
         () =>
           Notify.warning(

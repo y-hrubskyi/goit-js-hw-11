@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { API_KEY, BASE_URL } from './constants';
 
 class ThePixabayApiService {
   #API_KEY;
@@ -10,8 +9,8 @@ class ThePixabayApiService {
     this.perPage = 40;
     this.searchQuery = '';
 
-    this.#API_KEY = API_KEY;
-    this.#BASE_URL = BASE_URL;
+    this.#API_KEY = '39469696-20028cb0579d07044da7a8037';
+    this.#BASE_URL = 'https://pixabay.com/api';
   }
 
   async fetchSearchResults() {
