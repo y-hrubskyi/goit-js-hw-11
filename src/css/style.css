@@ -58,6 +58,16 @@ body {
   overflow: hidden;
 }
 
+.btn {
+  transition: 250ms color linear, 250ms background-color linear;
+}
+
+.btn:hover,
+.btn:focus {
+  color: #fff;
+  background-color: #374199;
+}
+
 /* form */
 .form-container {
   position: fixed;
@@ -94,6 +104,8 @@ body {
 }
 
 .photo-card {
+  border-radius: 8px;
+  overflow: hidden;
   box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08),
     0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
 }
