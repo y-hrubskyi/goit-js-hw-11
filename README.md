@@ -1,99 +1,91 @@
-# Parcel template
+# Search Images App
 
-Этот проект был создан при помощи Parcel. Для знакомства и настройки
-дополнительных возможностей [обратись к документации](https://parceljs.org/).
+## Overview
 
-## Подготовка нового проекта
+Search Images App is a tool for searching and viewing images by keywords. Open
+the door to an endless world of visual content and find exactly what you need in
+an instant.
 
-1. Убедись что на компьютере установлена LTS-версия Node.js.
-   [Скачай и установи](https://nodejs.org/en/) её если необходимо.
-2. Склонируй этот репозиторий.
-3. Измени имя папки с `parcel-project-template` на имя своего проекта.
-4. Создай новый пустой репозиторий на GitHub.
-5. Открой проект в VSCode, запусти терминал и свяжи проект с GitHub-репозиторием
-   [по инструкции](https://docs.github.com/en/get-started/getting-started-with-git/managing-remote-repositories#changing-a-remote-repositorys-url).
-6. Установи зависимости проекта в терминале командой `npm install` .
-7. Запусти режим разработки, выполнив команду `npm start`.
-8. Перейди в браузере по адресу [http://localhost:1234](http://localhost:1234).
-   Эта страница будет автоматически перезагружаться после сохранения изменений в
-   файлах проекта.
+## Preview
 
-## Файлы и папки
+Include demo GIF to visually showcase the application.
 
-- Все паршалы файлов стилей должны лежать в папке `src/sass` и импортироваться в
-  файлы стилей страниц. Например, для `index.html` файл стилей называется
-  `index.scss`.
-- Изображения добавляй в папку `src/images`. Сборщик оптимизирует их, но только
-  при деплое продакшн версии проекта. Все это происходит в облаке, чтобы не
-  нагружать твой компьютер, так как на слабых машинах это может занять много
-  времени.
+![Preview](/public/preview.gif)
 
-## Деплой
+## Features
 
-Для настройки деплоя проекта необходимо выполнить несколько дополнительных шагов
-по настройке твоего репозитория. Зайди во вкладку `Settings` и в подсекции
-`Actions` выбери выбери пункт `General`.
+- **Keyword Search:** Quickly find desired images by entering keywords or
+  phrases.
+- **Results Viewing:** Conveniently browse through the found images in a
+  user-friendly interface.
+- **Detailed Inspection:** Explore images in detail by zooming in and viewing
+  additional information.
+- **Responsive Design:** Ensures your website looks great on any device,
+  providing a seamless user experience across desktops, tablets, and
+  smartphones.
 
-![GitHub actions settings](./assets/actions-config-step-1.png)
+## Tech Stack
 
-Пролистай страницу до последней секции, в которой убедись что выбраны опции как
-на следующем изображении и нажми `Save`. Без этих настроек у сборки будет
-недостаточно прав для автоматизации процесса деплоя.
+- **Frontend:**
+  - HTML5: Used for structuring the content of web pages.
+  - CSS3: Utilized for styling and formatting web pages.
+  - JavaScript: Employed for adding interactivity and dynamic behavior to web
+    pages.
+  - Parcel: Bundler used for automating the project build process.
+- **Backend:**
+  - [Pixabay API](https://pixabay.com/api/docs/): Used on the backend to fetch
+    images for display on the frontend.
+- **Deployment:**
+  - GitHub Pages: Hosting platform for deploying the frontend.
+- **Version Control:**
+  - Git: Distributed version control system for tracking changes in the
+    codebase.
+- **Development Tools:**
+  - Visual Studio Code: An integrated development environment for efficient
+    coding.
+  - GitHub: Version control platform for collaborative development.
 
-![GitHub actions settings](./assets/actions-config-step-2.png)
+## Project Structure
 
-Продакшн версия проекта будет автоматически собираться и деплоиться на GitHub
-Pages, в ветку `gh-pages`, каждый раз когда обновляется ветка `main`. Например,
-после прямого пуша или принятого пул-реквеста. Для этого необходимо в файле
-`package.json` отредактировать поле `homepage` и скрипт `build`, заменив
-`your_username` и `your_repo_name` на свои, и отправить изменения на GitHub.
-
-```json
-"homepage": "https://your_username.github.io/your_repo_name/",
-"scripts": {
-  "build": "parcel build src/*.html --public-url /your_repo_name/"
-},
+```plaintext
+goit-js-hw-11/
+|-- public/                # Public assets and files
+|-- src/                   # Source code
+|   |-- css/               # CSS style files
+|   |-- js/                # JavaScript files
+|   |-- index.html         # Main page of web application
+|-- package.json           # Project configuration and dependencies
 ```
 
-Далее необходимо зайти в настройки GitHub-репозитория (`Settings` > `Pages`) и
-выставить раздачу продакшн версии файлов из папки `/root` ветки `gh-pages`, если
-это небыло сделано автоматически.
+## Getting Started
 
-![GitHub Pages settings](./assets/repo-settings.png)
+These instructions will help you set up and run the Search Images App on your
+local machine for development and testing purposes.
 
-### Статус деплоя
+### Prerequisites
 
-Статус деплоя крайнего коммита отображается иконкой возле его идентификатора.
+- Node.js and npm installed
 
-- **Желтый цвет** - выполняется сборка и деплой проекта.
-- **Зеленый цвет** - деплой завершился успешно.
-- **Красный цвет** - во время линтинга, сборки или деплоя произошла ошибка.
+### Installation
 
-Более детальную информацию о статусе можно посмотреть кликнув по иконке, и в
-выпадающем окне перейти по ссылке `Details`.
+1.  Clone the repository:
 
-![Deployment status](./assets/status.png)
+    ```bash
+    git clone https://github.com/y-hrubskyi/goit-js-hw-11.git
 
-### Живая страница
+    cd goit-js-hw-11
+    ```
 
-Через какое-то время, обычно пару минут, живую страницу можно будет посмотреть
-по адресу указанному в отредактированном свойстве `homepage`. Например, вот
-ссылка на живую версию для этого репозитория
-[https://goitacademy.github.io/parcel-project-template](https://goitacademy.github.io/parcel-project-template).
+2.  Install dependencies:
 
-Если открывается пустая страница, убедись что во вкладке `Console` нет ошибок
-связанных с неправильными путями к CSS и JS файлам проекта (**404**). Скорее
-всего у тебя неправильное значение свойства `homepage` или скрипта `build` в
-файле `package.json`.
+    ```bash
+    npm install
+    ```
 
-## Как это работает
+### Run the application:
 
-![How it works](./assets/how-it-works.png)
+1. Run app using following command:
 
-1. После каждого пуша в ветку `main` GitHub-репозитория, запускается специальный
-   скрипт (GitHub Action) из файла `.github/workflows/deploy.yml`.
-2. Все файлы репозитория копируются на сервер, где проект инициализируется и
-   проходит сборку перед деплоем.
-3. Если все шаги прошли успешно, собранная продакшн версия файлов проекта
-   отправляется в ветку `gh-pages`. В противном случае, в логе выполнения
-   скрипта будет указано в чем проблема.
+   ```bash
+   npm start
+   ```
