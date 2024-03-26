@@ -27,11 +27,11 @@ Include demo GIF to visually showcase the application.
 ## Tech Stack
 
 - **Frontend:**
+  - Parcel: Bundler used for automating the project build process.
   - HTML5: Used for structuring the content of web pages.
   - CSS3: Utilized for styling and formatting web pages.
   - JavaScript: Employed for adding interactivity and dynamic behavior to web
     pages.
-  - Parcel: Bundler used for automating the project build process.
 - **Backend:**
   - [Pixabay API](https://pixabay.com/api/docs/): Used on the backend to fetch
     images for display on the frontend.
