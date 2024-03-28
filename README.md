@@ -35,8 +35,8 @@ Include demo GIF to visually showcase the application.
   - JavaScript: Employed for adding interactivity and dynamic behavior to web
     pages.
 - **Backend:**
-  - [Pixabay API](https://pixabay.com/api/docs/): Used on the backend to fetch
-    images for display on the frontend.
+  - [Pixabay API](https://pixabay.com/api/docs/): External API as the backend
+    for retrieving data.
 - **Deployment:**
   - GitHub Pages: Hosting platform for deploying the frontend.
 - **Version Control:**
