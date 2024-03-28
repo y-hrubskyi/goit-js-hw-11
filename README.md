@@ -1,5 +1,8 @@
 # Search Images App
 
+This project was created with Parcel. For familiarization and setting additional
+features [refer to documentation](https://parceljs.org/).
+
 ## Overview
 
 Search Images App is a tool for searching and viewing images by keywords. Open
@@ -27,7 +30,6 @@ Include demo GIF to visually showcase the application.
 ## Tech Stack
 
 - **Frontend:**
-  - Parcel: Bundler used for automating the project build process.
   - HTML5: Used for structuring the content of web pages.
   - CSS3: Utilized for styling and formatting web pages.
   - JavaScript: Employed for adding interactivity and dynamic behavior to web
